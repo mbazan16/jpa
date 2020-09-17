@@ -2,18 +2,16 @@ package com.bjpa.dao.interfaces;
 
 import java.util.List;
 
-import com.bjpa.entities.Department;
-
-public interface IDAO {
+public interface IDAO<T> {
 	
-	public Department find(Long id);
+	public T find(Long id);
 	
-	public List<Department> findAll();
+	public List<T> findAll();
 	
-	public void create(Department d);
+	public void create(T d);
 	
-	public void save(Department d);
+	public void save(T d);
 	
-	public void delete(Department d);
+	public void delete(T d);
 
 }

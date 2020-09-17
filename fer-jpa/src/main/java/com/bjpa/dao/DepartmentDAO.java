@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import com.bjpa.dao.interfaces.IDAO;
 import com.bjpa.entities.Department;
 
-public class DepartmentDAO implements IDAO {
+public class DepartmentDAO implements IDAO<Department> {
 
 	EntityManager em;
 
@@ -40,8 +40,8 @@ public class DepartmentDAO implements IDAO {
 		if (department != null) {
 			em.getTransaction().begin();
 			department.setName(d.getName());
-			department.setManagerId(d.getManagerId());
-			department.setLocationId(d.getLocationId());
+			department.setManager(d.getManager());
+			department.setLocation(d.getLocation());
 			em.getTransaction().commit();
 		} else {
 			System.out.println("Department " + d.getId() + " does not exist. Creating.");

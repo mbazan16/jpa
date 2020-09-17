@@ -1,8 +1,13 @@
 package com.bjpa.entities;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -14,21 +19,28 @@ public class Department {
 	private Long id;
 	@Column(name = "DEPARTMENT_NAME")
 	private String name;
-	@Column(name = "MANAGER_ID")
-	private Long managerId;
-	@Column(name = "LOCATION_ID")
-	private Long locationId;
+	
+	@OneToMany(mappedBy="department")
+	private List<Employee> staff;
+	
+	@ManyToOne
+	@JoinColumn(name = "LOCATION_ID")
+	private Location location;
+	
+	@ManyToOne
+	@JoinColumn(name = "MANAGER_ID")
+	private Employee deptManager;
 	
 	public Department() {
 		super();
 	}
 
-	public Department(Long id, String name, Long managerId, Long locationId) {
+	public Department(Long id, String name, Employee manager, Location location) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.managerId = managerId;
-		this.locationId = locationId;
+		this.deptManager = manager;
+		this.location = location;
 	}
 
 	public Long getId() {
@@ -42,26 +54,34 @@ public class Department {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public Long getManagerId() {
-		return managerId;
+	
+	public List<Employee> getStaff() {
+		return staff;
 	}
 
-	public void setManagerId(Long managerId) {
-		this.managerId = managerId;
+	public void setStaff(List<Employee> staff) {
+		this.staff = staff;
 	}
 
-	public Long getLocationId() {
-		return locationId;
+	public Employee getManager() {
+		return deptManager;
 	}
 
-	public void setLocationId(Long locationId) {
-		this.locationId = locationId;
+	public void setManager(Employee manager) {
+		this.deptManager = manager;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	@Override
 	public String toString() {
-		return "Department [id=" + id + ", name=" + name + ", managerId=" + managerId + ", locationId=" + locationId
+		return "Department [id=" + id + ", name=" + name + ", manager=" + deptManager.getLastNm() + ", location=" + location.getCity()
 				+ "]";
 	}
 
@@ -70,9 +90,6 @@ public class Department {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((locationId == null) ? 0 : locationId.hashCode());
-		result = prime * result + ((managerId == null) ? 0 : managerId.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -89,21 +106,6 @@ public class Department {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (locationId == null) {
-			if (other.locationId != null)
-				return false;
-		} else if (!locationId.equals(other.locationId))
-			return false;
-		if (managerId == null) {
-			if (other.managerId != null)
-				return false;
-		} else if (!managerId.equals(other.managerId))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
