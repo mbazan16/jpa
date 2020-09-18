@@ -40,10 +40,6 @@ public class Job implements Serializable {
 		return this.id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public String getJobTtl() {
 		return this.jobTtl;
 	}
@@ -88,6 +84,42 @@ public class Job implements Serializable {
 		employee.setJob(null);
 
 		return employee;
+	}
+
+	@Override
+	public String toString() {
+		return "Job [id=" + id + ", jobTtl=" + jobTtl + ", maxSalary=" + maxSalary + ", minSalary=" + minSalary + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((jobTtl == null) ? 0 : jobTtl.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Job other = (Job) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (jobTtl == null) {
+			if (other.jobTtl != null)
+				return false;
+		} else if (!jobTtl.equals(other.jobTtl))
+			return false;
+		return true;
 	}
 
 }

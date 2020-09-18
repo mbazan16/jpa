@@ -5,8 +5,6 @@
 		<class>com.bjpa.entities.Department</class>
 		<class>com.bjpa.entities.Employee</class>
 		<class>com.bjpa.entities.Job</class>
-		<class>com.bjpa.entities.JobInstance</class>
-		<class>com.bjpa.entities.JobInstancePK</class>
 		<class>com.bjpa.entities.Location</class>
 		<class>com.bjpa.entities.Region</class>
 	</persistence-unit>

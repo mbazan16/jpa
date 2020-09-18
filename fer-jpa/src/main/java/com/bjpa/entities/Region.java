@@ -33,10 +33,6 @@ public class Region implements Serializable {
 		return this.id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	public String getRegionNm() {
 		return this.regionNm;
 	}
@@ -65,6 +61,39 @@ public class Region implements Serializable {
 		country.setRegion(null);
 
 		return country;
+	}
+
+	@Override
+	public String toString() {
+		return "Region [id=" + id + ", regionNm=" + regionNm + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((regionNm == null) ? 0 : regionNm.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Region other = (Region) obj;
+		if (id != other.id)
+			return false;
+		if (regionNm == null) {
+			if (other.regionNm != null)
+				return false;
+		} else if (!regionNm.equals(other.regionNm))
+			return false;
+		return true;
 	}
 
 }

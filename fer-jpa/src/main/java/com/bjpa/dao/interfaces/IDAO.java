@@ -2,16 +2,18 @@ package com.bjpa.dao.interfaces;
 
 import java.util.List;
 
-public interface IDAO<T> {
+import com.bjpa.exceptions.DAOException;
+
+public interface IDAO<K,T> {
 	
-	public T find(Long id);
+	public T find(K id) throws DAOException;
 	
-	public List<T> findAll();
+	public List<T> findAll() throws DAOException;
 	
-	public void create(T d);
+	public void create(T t) throws DAOException;
 	
-	public void save(T d);
+	public void save(T t) throws DAOException;
 	
-	public void delete(T d);
+	public void delete(T t) throws DAOException;
 
 }
