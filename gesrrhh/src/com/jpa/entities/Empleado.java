@@ -34,7 +34,7 @@ public class Empleado {
 	@Column (name = "HIRE_DATE")
 	private Date fechaContratacion;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="JOB_ID")
 	private Trabajo trabajo;
 	

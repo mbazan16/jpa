@@ -11,7 +11,14 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name="LOCATIONS")
-@NamedQuery(name="Direccion.findAll", query="SELECT d FROM Direccion d")
+@NamedQueries({
+ @NamedQuery(name="Direccion.findAll", query="SELECT d FROM Direccion d"),
+ @NamedQuery(name="Direccion.findAllByPais", query="SELECT d FROM Direccion d WHERE d.idPais= :id"),
+ @NamedQuery(name="Direccion.findOneByDepartamento", 
+ 				query="SELECT d FROM Departamento de, Direccion d WHERE d.id=de.idDireccion AND de.id = :id")
+ //Si estuviera el objeto Direccion dentro de Departamento
+//@NamedQuery(name="Direccion.finOneByDepartamento", query="select  d.direccion from Departamento d where d.id= :id")
+})
 public class Direccion implements Serializable {
 	private static final long serialVersionUID = 1L;
 

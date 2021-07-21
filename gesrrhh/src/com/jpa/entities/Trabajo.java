@@ -1,8 +1,18 @@
 package com.jpa.entities;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 
 /**
@@ -28,6 +38,10 @@ public class Trabajo implements Serializable {
 
 	@Column(name="MIN_SALARY")
 	private BigDecimal minimoSalario;
+	
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="JOB_ID")
+	List<Empleado> empleados;
 
 	public Trabajo() {
 	}
@@ -62,13 +76,22 @@ public class Trabajo implements Serializable {
 
 	public void setMinimoSalario(BigDecimal minimoSalario) {
 		this.minimoSalario = minimoSalario;
+	}	
+	
+
+	public List<Empleado> getEmpleados() {
+		return empleados;
 	}
 
-	@Override
-	public String toString() {
-		return "Trabajo [id=" + id + ", titulos=" + titulos + ", maximoSalario=" + maximoSalario + ", minimoSalario="
-				+ minimoSalario + "]";
+	public void setEmpleados(List<Empleado> empleados) {
+		this.empleados = empleados;
 	}
+
+	/*
+	 * @Override public String toString() { return "Trabajo [id=" + id +
+	 * ", titulos=" + titulos + ", maximoSalario=" + maximoSalario +
+	 * ", minimoSalario=" + minimoSalario + "]"; }
+	 */
 
 	
 

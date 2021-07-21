@@ -4,14 +4,14 @@ import java.util.List;
 
 import com.jpa.exceptions.DAOException;
 
-public interface DAO<T> {
+public interface DAO<K,T> {
 	/**
 	 * Método para encontrar un elemento por su id 
 	 * @param id Identificador del elemento
 	 * @return
 	 * @throws DAOException
 	 */
-	public T find(Long id) throws DAOException;
+	public T find(K id) throws DAOException;
 	
 	/**
 	 * Método para encontrar tododos los elementos de la base de datos
@@ -39,6 +39,6 @@ public interface DAO<T> {
 	 * @param id Identificador del elemento
 	 * @throws DAOException
 	 */
-	public void eliminar(Long id) throws DAOException;
+	public void eliminar(K id) throws DAOException;
 
 }

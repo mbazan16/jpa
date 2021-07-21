@@ -11,39 +11,40 @@ import javax.persistence.TypedQuery;
 import org.apache.log4j.Logger;
 
 import com.jpa.dao.interfaces.DAO;
-import com.jpa.entities.Departamento;
+import com.jpa.dao.interfaces.IRepositoryDireccion;
+import com.jpa.entities.Direccion;
 import com.jpa.entities.Empleado;
 import com.jpa.entities.Direccion;
 import com.jpa.exceptions.DAOException;
 import com.jpa.exceptions.MensajesExceptions;
 
 /**
- * Gestion del objeto Departamento con la bbdd
+ * Gestion del objeto Direccion con la bbdd
  * 
  * @author formacion
  *
  */
-public class DepartamentoDAO implements DAO<Long, Departamento> {
+public class DireccionRepository implements IRepositoryDireccion {
 
-	private final static Logger log = Logger.getLogger(DepartamentoDAO.class);
+	private final static Logger log = Logger.getLogger(DireccionRepository.class);
 
 	EntityManagerFactory emf;
 
 	EntityManager manager;
 
 	/**
-	 * Método para encontrar un Departamento por su id
+	 * Método para encontrar un Direccion por su id
 	 * 
-	 * @param id Identificador del Departamento
-	 * @return objeto Departamento
+	 * @param id Identificador del Direccion
+	 * @return objeto Direccion
 	 * @throws DAOException
 	 */
 	@Override
-	public Departamento find(Long id) throws DAOException {
+	public Direccion find(Long id) throws DAOException {
 		log.info("Method:[find]");
 		log.debug("Parmetros:[Long id:" + id + "]");
 
-		Departamento element = null;
+		Direccion element = null;
 
 		try {
 			init();
@@ -60,26 +61,52 @@ public class DepartamentoDAO implements DAO<Long, Departamento> {
 		return element;
 	}
 
-	/**
-	 * Método para encontrar tododos los Departamentos de la base de datos
-	 * 
-	 * @return Una Lista de Departamentos
-	 * @throws DAOException
-	 */
 	@Override
-	public List<Departamento> findAll() throws DAOException {
-		log.info("Method:[findAll]");
+	public Direccion findOneByDepartamento(Long idDepartamento) throws DAOException {
+		log.info("Method:[findOneByDepartamento]");
 
-		List<Departamento> elements = new ArrayList<Departamento>();
+		Direccion direccion;
 
 		try {
 			init();
-			// elements = manager.createNamedQuery("Departamento.findAll",
-			// Departamento.class)
-			// .getResultList();
-			String sql = "select d from Departamento d";
+			
+			TypedQuery<Direccion> typeQuery = manager.createNamedQuery("Direccion.findOneByDepartamento", Direccion.class)
+					 .setParameter("id", idDepartamento);
+			
+				
+			 direccion = typeQuery.getSingleResult();
+			
 
-			TypedQuery<Departamento> query = manager.createQuery(sql, Departamento.class);
+			log.debug("Direccion del departamento:"+direccion);
+
+		} catch (Exception e) {
+			log.error("Error", e);
+			throw new DAOException(e);
+		}
+
+		return direccion;
+	}
+
+	/**
+	 * Método para encontrar tododos los Direcciones de la base de datos
+	 * 
+	 * @return Una Lista de Direcciones
+	 * @throws DAOException
+	 */
+	@Override
+	public List<Direccion> findAll() throws DAOException {
+		log.info("Method:[findAll]");
+
+		List<Direccion> elements = new ArrayList<Direccion>();
+
+		try {
+			init();
+			// elements = manager.createNamedQuery("Direccion.findAll",
+			// Direccion.class)
+			// .getResultList();
+			String sql = "select d from Direccion d";
+
+			TypedQuery<Direccion> query = manager.createQuery(sql, Direccion.class);
 
 			elements = query.getResultList();
 
@@ -92,17 +119,44 @@ public class DepartamentoDAO implements DAO<Long, Departamento> {
 
 		return elements;
 	}
+	
+
+	
+
+	@Override
+	public List<Direccion> findAllByPais(String idPais) throws DAOException {
+		log.info("Method:[findAllByPais]");
+
+		List<Direccion> elements = new ArrayList<Direccion>();
+
+		try {
+			init();
+			 elements = manager.createNamedQuery("Direccion.findAllByPais", Direccion.class)
+					// .setParameter(1, idPais)
+					 .setParameter("id", idPais)
+					 .getResultList();
+			
+
+			elements.forEach(d -> log.debug(d));
+
+		} catch (Exception e) {
+			log.error("Error", e);
+			throw new DAOException(e);
+		}
+
+		return elements;
+	}
 
 	/**
-	 * Método para crear un Departamento de la base de datos
+	 * Método para crear un Direccion de la base de datos
 	 * 
-	 * @param element objeto de tipo Departamento
+	 * @param element objeto de tipo Direccion
 	 * @throws DAOException
 	 */
 	@Override
-	public void crear(Departamento element) throws DAOException {
+	public void crear(Direccion element) throws DAOException {
 		log.info("Method:[crear]");
-		log.debug("Parmetros:[Departamento element:" + element + "]");
+		log.debug("Parmetros:[Direccion element:" + element + "]");
 
 		try {
 			init();
@@ -113,7 +167,7 @@ public class DepartamentoDAO implements DAO<Long, Departamento> {
 				manager.getTransaction().begin();
 				manager.persist(element);
 				manager.getTransaction().commit();
-				log.debug("[crear]Commit - Creamos departamento");
+				log.debug("[crear]Commit - Creamos direccion");
 			} catch (Exception e) {
 				log.error("Error", e);
 				manager.getTransaction().rollback();
@@ -131,27 +185,29 @@ public class DepartamentoDAO implements DAO<Long, Departamento> {
 	}
 
 	/**
-	 * Método para modificar un Departamento de la base de datos
+	 * Método para modificar un Direccion de la base de datos
 	 * 
-	 * @param element objeto de tipo Departamento
+	 * @param element objeto de tipo Direccion
 	 * @throws DAOException
 	 */
 	@Override
-	public void modificar(Departamento element) throws DAOException {
+	public void modificar(Direccion element) throws DAOException {
 		log.info("Method:[modificar]");
-		log.debug("Parmetros:[Departamento element:" + element + "]");
+		log.debug("Parmetros:[Direccion element:" + element + "]");
 		try {
 			init();
-			Departamento departamentoBBDD = validarModificar(element);
+			Direccion direccionBBDD = validarModificar(element);
 
 			try {
 				log.debug("[modificar]Iniciamos transacción");
 				manager.getTransaction().begin();
-				departamentoBBDD.setNombre(element.getNombre());
-				departamentoBBDD.setIdDireccion(element.getIdDireccion());
-				departamentoBBDD.setIdManager(element.getIdManager());
+				direccionBBDD.setCalle(element.getCalle());
+				direccionBBDD.setCiudad(element.getCiudad());
+				direccionBBDD.setCodigoPostal(element.getCodigoPostal());
+				direccionBBDD.setIdPais(element.getIdPais());
+				direccionBBDD.setProvincia(element.getProvincia());
 				manager.getTransaction().commit();
-				log.debug("[modificar]Commit - Modificamos departamento");
+				log.debug("[modificar]Commit - Modificamos direccion");
 			} catch (Exception e) {
 				log.error("Error", e);
 				manager.getTransaction().rollback();
@@ -169,9 +225,9 @@ public class DepartamentoDAO implements DAO<Long, Departamento> {
 	}
 
 	/**
-	 * Método para eliminar un Departamento de la base de datos
+	 * Método para eliminar un Direccion de la base de datos
 	 * 
-	 * @param id Identificador de Departamento
+	 * @param id Identificador de Direccion
 	 * @throws DAOException
 	 */
 	@Override
@@ -181,14 +237,14 @@ public class DepartamentoDAO implements DAO<Long, Departamento> {
 
 		try {
 			init();
-			Departamento element = validarEliminar(id);
+			Direccion element = validarEliminar(id);
 
 			try {
 				log.debug("[eliminar]Iniciamos transacción");
 				manager.getTransaction().begin();
 				manager.remove(element);
 				manager.getTransaction().commit();
-				log.debug("[eliminar]Commit - Eliminamos departamento+" + element);
+				log.debug("[eliminar]Commit - Eliminamos direccion+" + element);
 			} catch (Exception e) {
 				log.error("Error", e);
 				manager.getTransaction().rollback();
@@ -221,105 +277,64 @@ public class DepartamentoDAO implements DAO<Long, Departamento> {
 	}
 
 	/**
-	 * Validaciones para la acción crear Departamento. Se comprueba que no existe el
-	 * departamento y que la direccion esta registrada en la BBDD Si exite el
+	 * Validaciones para la acción crear Direccion. Se comprueba que no existe el
+	 * direccion y que la direccion esta registrada en la BBDD Si exite el
 	 * manager, también se comprueba su existencia
 	 * 
 	 * @param element
 	 * @throws DAOException
 	 */
-	private void validarCrear(Departamento element) throws DAOException {
+	private void validarCrear(Direccion element) throws DAOException {
 		log.info("Method:[private validarCrear]");
-		log.debug("Parmetros:[Departamento element:" + element + "]");
+		log.debug("Parmetros:[Direccion element:" + element + "]");
 
-		Departamento departamentoBBDD = findBBDD(element.getId());
+		Direccion direccionBBDD = findBBDD(element.getId());
 
-		if (departamentoBBDD != null)
-			throw new DAOException(MensajesExceptions.EXISTE_DEPARTAMENTO);
-
-		comprobarDireccion(element.getIdDireccion());
-		comprobarManager(element.getIdManager());
-
-	}
+		if (direccionBBDD != null)
+			throw new DAOException(MensajesExceptions.EXISTE_DEPARTAMENTO);	}
 
 	/**
-	 * Validaciones para la acción modificar Departamento. Se comprueba que existe
-	 * el departamento, que el departamento a modificar no es igualque el existente
+	 * Validaciones para la acción modificar Direccion. Se comprueba que existe
+	 * el direccion, que el direccion a modificar no es igualque el existente
 	 * y que la direccion esta registrada en la BBDD Si exite el manager, también se
 	 * comprueba su existencia
 	 * 
 	 * @param element
 	 * @throws DAOException
 	 */
-	private Departamento validarModificar(Departamento element) throws DAOException {
+	private Direccion validarModificar(Direccion element) throws DAOException {
 		log.info("Method:[private validarModificar]");
-		log.debug("Parmetros:[Departamento element:" + element + "]");
+		log.debug("Parmetros:[Direccion element:" + element + "]");
 
-		Departamento departamentoBBDD = findBBDD(element.getId());
-		if (departamentoBBDD == null)
+		Direccion direccionBBDD = findBBDD(element.getId());
+		if (direccionBBDD == null)
 			throw new DAOException(MensajesExceptions.NO_EXISTE_DEPARTAMENTO);
 
-		if (!departamentoBBDD.equals(element)) {
-			comprobarDireccion(element.getIdDireccion());
-			comprobarManager(element.getIdManager());
-
-		}
-		return departamentoBBDD;
+		
+		return direccionBBDD;
 
 	}
 
 	/**
-	 * Validaciones para la acción modificar Departamento. Se comprueba que existe
-	 * el departamento
+	 * Validaciones para la acción modificar Direccion. Se comprueba que existe
+	 * el direccion
 	 * 
 	 * @param id
 	 * @return
 	 * @throws DAOException
 	 */
-	private Departamento validarEliminar(Long id) throws DAOException {
+	private Direccion validarEliminar(Long id) throws DAOException {
 		log.info("Method:[private validarEliminar]");
 		log.debug("Parmetros:[Long id:" + id + "]");
 
-		Departamento departamentoBBDD = findBBDD(id);
-		if (departamentoBBDD == null)
+		Direccion direccionBBDD = findBBDD(id);
+		if (direccionBBDD == null)
 			throw new DAOException(MensajesExceptions.NO_EXISTE_DEPARTAMENTO);
 
-		return departamentoBBDD;
+		return direccionBBDD;
 	}
 
-	/**
-	 * Se compureba que el identificador de dirección identifica una Dirección en
-	 * BBDD
-	 * 
-	 * @param idDireccion
-	 * @throws DAOException
-	 */
-	private void comprobarDireccion(Long idDireccion) throws DAOException {
-		log.info("Method:[private comprobarDirecciónn]");
-		log.debug("Parmetros:[Long idDireccion:" + idDireccion + "]");
-
-		Direccion localizacion = manager.find(Direccion.class, idDireccion);
-		if (localizacion == null)
-			throw new DAOException(MensajesExceptions.NO_EXISTE_DIRECCION);
-
-	}
-
-	/**
-	 * Se compureba que el identificador de manager identifica un Empleado en BBDD
-	 * 
-	 * @param idDireccion
-	 * @throws DAOException
-	 */
-	private void comprobarManager(Long idManager) throws DAOException {
-		log.info("Method:[private comprobarManager]");
-		log.debug("Parmetros:[Long idManager:" + idManager + "]");
-		if (idManager != null) {
-			Empleado e = manager.find(Empleado.class, idManager);
-			if (e == null)
-				throw new DAOException(MensajesExceptions.NO_EXISTE_EMPLEADO);
-		}
-
-	}
+	
 
 	/**
 	 * Se extrae un Departamente por su id de la BBDD
@@ -327,14 +342,14 @@ public class DepartamentoDAO implements DAO<Long, Departamento> {
 	 * @param idDireccion
 	 * @throws DAOException
 	 */
-	private Departamento findBBDD(Long id) throws DAOException {
+	private Direccion findBBDD(Long id) throws DAOException {
 		log.info("Method:[private findBBDD ]");
 		log.debug("Parmetros:[Long id:" + id + "]");
 
-		Departamento element = null;
+		Direccion element = null;
 
 		try {
-			element = manager.find(Departamento.class, id);
+			element = manager.find(Direccion.class, id);
 			log.debug("[private findBBDD ][element]:" + element);
 
 		} catch (Exception e) {
