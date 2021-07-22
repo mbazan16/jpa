@@ -10,5 +10,7 @@ public interface IRepositoryDireccion extends DAO<Long,Direccion>{
 	public List<Direccion> findAllByPais(String idPais) throws DAOException;
 	
 	public Direccion findOneByDepartamento(Long idDepartamento) throws DAOException;
+	
+	public List<Direccion> findAllPag(int pagina, int numElementosPag) throws DAOException;
 
 }

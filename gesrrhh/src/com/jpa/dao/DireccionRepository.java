@@ -120,6 +120,40 @@ public class DireccionRepository implements IRepositoryDireccion {
 		return elements;
 	}
 	
+	@Override
+	public List<Direccion> findAllPag(int pagina, int numElementosPag) throws DAOException {
+		log.info("Method:[findAll]");
+
+		List<Direccion> elements = new ArrayList<Direccion>();
+
+		try {
+			init();
+			// elements = manager.createNamedQuery("Direccion.findAll",
+			// Direccion.class)
+			// .getResultList();
+			String sql = "select d from Direccion d";
+			
+			int numElementoInicial= (pagina*numElementosPag)-numElementosPag+1;
+
+			TypedQuery<Direccion> query = manager.createQuery(sql, Direccion.class)
+					.setFirstResult(numElementoInicial)
+					.setMaxResults(numElementosPag);
+
+			elements = query.getResultList();
+			
+			log.info(query.getFirstResult());
+			log.info(query.getMaxResults());
+
+			elements.forEach(d -> log.debug(d));
+
+		} catch (Exception e) {
+			log.error("Error", e);
+			throw new DAOException(e);
+		}
+
+		return elements;
+	}
+	
 
 	
 
