@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
@@ -230,13 +231,15 @@ public class CuadernoDAO implements DAO<Long, Cuaderno> {
 		log.info("Method:[private validarCrear]");
 		log.debug("Parmetros:[Cuaderno element:" + element + "]");
 
-		Cuaderno cuadernoBBDD = findBBDD(element.getId());
-
-		if (cuadernoBBDD != null)
-			throw new DAOException(MensajesExceptions.EXISTE_DEPARTAMENTO);
+		/* Esto no hace falta porque no  sabemos cual es el id antes de crearlo
+		 * Cuaderno cuadernoBBDD = findBBDD(element.getId());
+		 * 
+		 * if (cuadernoBBDD != null) throw new
+		 * DAOException(MensajesExceptions.EXISTE_DEPARTAMENTO);
+		 */
 
 		comprobarNombre(element.getNombre());
-		comprobarTipo((long) element.getTipo());
+		
 
 	}
 
@@ -255,11 +258,10 @@ public class CuadernoDAO implements DAO<Long, Cuaderno> {
 
 		Cuaderno cuadernoBBDD = findBBDD(element.getId());
 		if (cuadernoBBDD == null)
-			throw new DAOException(MensajesExceptions.NO_EXISTE_DEPARTAMENTO);
+			throw new DAOException(MensajesExceptions.NO_EXISTE_CUADERNO);
 
 		if (!cuadernoBBDD.equals(element)) {
 			comprobarNombre(element.getNombre());
-			comprobarTipo((long) element.getTipo());
 
 		}
 		return cuadernoBBDD;
@@ -280,7 +282,7 @@ public class CuadernoDAO implements DAO<Long, Cuaderno> {
 
 		Cuaderno cuadernoBBDD = findBBDD(id);
 		if (cuadernoBBDD == null)
-			throw new DAOException(MensajesExceptions.NO_EXISTE_DEPARTAMENTO);
+			throw new DAOException(MensajesExceptions.NO_EXISTE_CUADERNO);
 
 		return cuadernoBBDD;
 	}
@@ -292,14 +294,19 @@ public class CuadernoDAO implements DAO<Long, Cuaderno> {
 	 * @param string
 	 * @throws DAOException
 	 */
-	private void comprobarNombre(String string) throws DAOException {
+	private void comprobarNombre(String nombre) throws DAOException {
 		log.info("Method:[private comprobarDirecciónn]");
-		log.debug("Parmetros:[Long idNombre:" + string + "]");
+		log.debug("Parmetros:[Cadena nombre:" + nombre + "]");
 
-		Cuaderno nombre = manager.find(Cuaderno.class, string);
-		if (nombre == null)
-			throw new DAOException(MensajesExceptions.NO_EXISTE_DIRECCION);
-
+		TypedQuery<Cuaderno> query = manager
+										.createNamedQuery("Cuaderno.findByNombre", Cuaderno.class)
+										.setParameter("nombre", nombre);
+		try {
+		Cuaderno cuaderno = query.getSingleResult();
+		}catch(NoResultException ne) {
+			throw new DAOException(MensajesExceptions.EXISTE_CUADERNO);
+		}
+		
 	}
 
 	/**
@@ -314,7 +321,7 @@ public class CuadernoDAO implements DAO<Long, Cuaderno> {
 		if (idTipo != null) {
 			Cuaderno e = manager.find(Cuaderno.class, idTipo);
 			if (e == null)
-				throw new DAOException(MensajesExceptions.NO_EXISTE_EMPLEADO);
+				throw new DAOException(MensajesExceptions.NO_EXISTE_TIPO);
 		}
 
 	}

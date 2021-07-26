@@ -9,8 +9,11 @@ import javax.persistence.*;
  * 
  */
 @Entity
-@NamedQuery(name="Cuaderno.findAll", query="SELECT c FROM Cuaderno c")
-public class Cuaderno implements Serializable {
+@NamedQueries({
+	@NamedQuery(name="Cuaderno.findAll", query="SELECT c FROM Cuaderno c"),
+	@NamedQuery(name="Cuaderno.findByNombre", query="SELECT c FROM Cuaderno c WHERE c.nombre = :nombre")
+})
+	public class Cuaderno implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

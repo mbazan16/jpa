@@ -1,10 +1,10 @@
 package com.jpa.exceptions;
 
 public enum MensajesExceptions {
-	NO_EXISTE_DEPARTAMENTO("No existe departamento"),
-	EXISTE_DEPARTAMENTO("Existe depatarmento"),
-	NO_EXISTE_EMPLEADO("No existe empleado"),
-	EXISTE_EMPLEADO("Existe empleado"),
+	NO_EXISTE_CUADERNO("No existe cuaderno"),
+	EXISTE_CUADERNO("Existe cuaderno"),
+	NO_EXISTE_TIPO("No existe tipo"),
+	EXISTE_TIPO("Existe tipo"),
 	NO_EXISTE_DIRECCION("No existe dirección"),
 	EXISTE_DIRECCION("Existe dirección");
 	
