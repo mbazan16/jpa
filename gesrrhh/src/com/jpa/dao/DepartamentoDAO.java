@@ -94,7 +94,7 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 			init();
 			
 			elements = manager.createNamedQuery("Departamento.findByJefeDepartamento", Departamento.class)
-					.setParameter("idManager",idJefeDepartamento).getResultList();
+					.setParameter(1,idJefeDepartamento).getResultList();
 			elements.forEach(s->log.debug(s));
 			
 		} catch (Exception e) {
