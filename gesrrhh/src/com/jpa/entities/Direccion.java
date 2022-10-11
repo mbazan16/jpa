@@ -22,8 +22,9 @@ public class Direccion implements Serializable {
 	@Column(name="CITY")
 	private String ciudad;
 
-	@Column(name="COUNTRY_ID")
-	private String idPais;
+	@ManyToOne
+	@JoinColumn(name="COUNTRY_ID")
+	private Pais pais;
 
 	@Column(name="POSTAL_CODE")
 	private String codigoPostal;
@@ -53,12 +54,13 @@ public class Direccion implements Serializable {
 		this.ciudad = ciudad;
 	}
 
-	public String getIdPais() {
-		return idPais;
+	public Pais getPais() {
+		if(this.pais==null) this.pais= new Pais();
+		return pais;
 	}
 
-	public void setIdPais(String idPais) {
-		this.idPais = idPais;
+	public void setPais(Pais pais) {		
+		this.pais = pais;
 	}
 
 	public String getCodigoPostal() {
@@ -87,9 +89,11 @@ public class Direccion implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Direccion [id=" + id + ", ciudad=" + ciudad + ", idPais=" + idPais + ", codigoPostal=" + codigoPostal
+		return "Direccion [id=" + id + ", ciudad=" + ciudad + ", pais=" + pais + ", codigoPostal=" + codigoPostal
 				+ ", provincia=" + provincia + ", calle=" + calle + "]";
 	}
+
+	
 
 	
 }

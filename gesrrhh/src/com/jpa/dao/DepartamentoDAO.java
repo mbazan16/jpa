@@ -28,6 +28,8 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 	EntityManagerFactory emf;
 
 	EntityManager manager;	
+	
+	
 
 
 	/**
@@ -114,7 +116,7 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 
 		try {
 			init();
-			String query="SELECT d FROM Departamento d WHERE d.idDireccion= :idDireccion";
+			String query="SELECT d FROM Departamento d WHERE d.direccion.id= :idDireccion";
 			
 			elements = manager.createQuery(query,Departamento.class)
 					.setParameter("idDireccion",idDireccion).getResultList();
@@ -224,9 +226,9 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 			try {
 				log.debug("[modificar]Iniciamos transacción");
 				manager.getTransaction().begin();
-				departamentoBBDD.setNombre(element.getNombre());
-				departamentoBBDD.setIdDireccion(element.getIdDireccion());
-				departamentoBBDD.setIdManager(element.getIdManager());
+				departamentoBBDD.setNombre(element.getNombre());				
+				//departamentoBBDD.get(element.getIdDireccion());
+				//departamentoBBDD.setIdManager(element.getIdManager());
 				manager.getTransaction().commit();
 				log.debug("[modificar]Commit - Modificamos departamento");
 			} catch (Exception e) {
@@ -315,7 +317,7 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 
 		if(departamentoBBDD != null) throw new DAOException(MensajesExceptions.EXISTE_DEPARTAMENTO);
 
-		comprobarDireccion(element.getIdDireccion());
+		comprobarDireccion(element.getDireccion().getId());
 		comprobarManager(element.getIdManager());
 
 	}
@@ -337,7 +339,7 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 		if(departamentoBBDD == null) throw new DAOException(MensajesExceptions.NO_EXISTE_DEPARTAMENTO);
 
 		if(!departamentoBBDD.equals(element)) {
-			comprobarDireccion(element.getIdDireccion());
+			comprobarDireccion(element.getDireccion().getId());
 			comprobarManager(element.getIdManager());
 
 		}

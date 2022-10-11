@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -32,10 +34,14 @@ public class Departamento {
 	private Long id;
 	@Column(name = "DEPARTMENT_NAME")
 	private String nombre;
-	@Column(name = "MANAGER_ID")
+	
+
+	@Column(name="MANAGER_ID")
 	private Long idManager;
-	@Column(name = "LOCATION_ID")
-	private Long idDireccion;
+	
+	@ManyToOne
+	@JoinColumn(name="LOCATION_ID")
+	private Direccion direccion;
 	
 	@OneToMany(mappedBy = "departamento",fetch=FetchType.LAZY)
 	private List<Empleado> empleados;
@@ -44,13 +50,7 @@ public class Departamento {
 		super();
 	}
 
-	public Departamento(Long id, String nombre, Long idManager, Long idLocalizacion) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-		this.idManager = idManager;
-		this.idDireccion = idLocalizacion;
-	}
+	
 
 	public Long getId() {
 		return id;
@@ -73,20 +73,26 @@ public class Departamento {
 		return idManager;
 	}
 
+
+
 	public void setIdManager(Long idManager) {
 		this.idManager = idManager;
 	}
 
-	public Long getIdDireccion() {
-		return idDireccion;
+
+
+	public Direccion getDireccion() {
+		if(this.direccion==null) this.direccion= new Direccion();
+		return direccion;
 	}
 
-	public void setIdDireccion(Long idDireccion) {
-		this.idDireccion = idDireccion;
+
+
+	public void setDireccion(Direccion direccion) {
+		this.direccion = direccion;
 	}
-	
-	
-	
+
+
 
 	public List<Empleado> getEmpleados() {
 		if(empleados==null) empleados=new ArrayList<Empleado>();
@@ -97,13 +103,17 @@ public class Departamento {
 		this.empleados = empleados;
 	}
 
-	@Override
-	public String toString() {
-		return "Departamento [id=" + id + ", nombre=" + nombre + ", idManager=" + idManager + ", idLocalizacion="
-				+ idDireccion + "]";
-	}
+	
 
 	
+
+	@Override
+	public String toString() {
+		return "Departamento [id=" + id + ", nombre=" + nombre + ", idManager=" + idManager
+				+ ", direccion=" + direccion + "]";
+	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -119,15 +129,9 @@ public class Departamento {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (idDireccion == null) {
-			if (other.idDireccion != null)
-				return false;
-		} else if (!idDireccion.equals(other.idDireccion))
+		if(this.getDireccion().getId()!=other.getDireccion().getId())
 			return false;
-		if (idManager == null) {
-			if (other.idManager != null)
-				return false;
-		} else if (!idManager.equals(other.idManager))
+		if(this.idManager!=other.idManager)
 			return false;
 		if (nombre == null) {
 			if (other.nombre != null)

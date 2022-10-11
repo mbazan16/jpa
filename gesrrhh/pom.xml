@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.jpa</groupId>
-	<artifactId>base</artifactId>
+	<artifactId>gesrrhh</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<dependencies>
 		<dependency>
@@ -18,6 +18,7 @@
 			<version>2.7.5</version>
 		</dependency>
 
+		<!--  Dependencia no esencial en el proyecto se utiliza como ejemplo de framework de trazas -->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>

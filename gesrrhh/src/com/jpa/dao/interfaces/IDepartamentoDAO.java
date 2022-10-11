@@ -5,7 +5,7 @@ import java.util.List;
 import com.jpa.entities.Departamento;
 import com.jpa.exceptions.DAOException;
 
-public interface IDepartamentoDAO extends DAO<Departamento> {
+public interface IDepartamentoDAO extends DAO<Departamento,Long> {
 	
 	public List<Departamento> buscarPorJefeDepartmento(Long idJefeDepartamento) throws DAOException;
 	public Departamento buscarPorEmpleado(Long idEmpleado) throws DAOException;

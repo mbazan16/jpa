@@ -17,7 +17,7 @@ public class App {
 		Departamento departamento = new Departamento();
 		departamento.setId(280L);
 		departamento.setNombre("Nuevo Departamento");
-		departamento.setIdDireccion(1000L);
+		departamento.getDireccion().setId(1000L);
 		departamento.setIdManager(110L);
 
 		IDepartamentoDAO departamentoDAO = new DepartamentoDAO();
