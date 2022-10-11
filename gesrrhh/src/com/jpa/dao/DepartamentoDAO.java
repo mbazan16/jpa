@@ -9,10 +9,10 @@ import javax.persistence.Persistence;
 
 import org.apache.log4j.Logger;
 
-import com.jpa.dao.interfaces.DAO;
+import com.jpa.dao.interfaces.IDepartamentoDAO;
 import com.jpa.entities.Departamento;
-import com.jpa.entities.Empleado;
 import com.jpa.entities.Direccion;
+import com.jpa.entities.Empleado;
 import com.jpa.exceptions.DAOException;
 import com.jpa.exceptions.MensajesExceptions;
 
@@ -21,7 +21,7 @@ import com.jpa.exceptions.MensajesExceptions;
  * @author formacion
  *
  */
-public class DepartamentoDAO implements DAO<Departamento>{
+public class DepartamentoDAO implements IDepartamentoDAO{
 
 	private final static Logger log = Logger.getLogger(DepartamentoDAO.class);
 
@@ -71,15 +71,104 @@ public class DepartamentoDAO implements DAO<Departamento>{
 
 		try {
 			init();
+			
 			elements = manager.createNamedQuery("Departamento.findAll", Departamento.class).getResultList();
-			elements.forEach(d -> log.debug(d));
-
+			elements.forEach(s->log.debug(s));
+			
 		} catch (Exception e) {
 			log.error("Error", e);
 			throw new DAOException(e);
 		}
 
 		return elements;
+	}
+
+	@Override
+	public List<Departamento> buscarPorJefeDepartmento(Long idJefeDepartamento) throws DAOException {
+		log.info("Method:[buscarPorJefeDepartmento]");
+		log.debug("Parmetros:[Long idJefeDepartamento:" + idJefeDepartamento+"]");
+
+		List<Departamento> elements = new ArrayList<Departamento>();
+
+		try {
+			init();
+			
+			elements = manager.createNamedQuery("Departamento.findByJefeDepartamento", Departamento.class)
+					.setParameter("idManager",idJefeDepartamento).getResultList();
+			elements.forEach(s->log.debug(s));
+			
+		} catch (Exception e) {
+			log.error("Error", e);
+			throw new DAOException(e);
+		}
+
+		return elements;
+	}
+
+	@Override
+	public List<Departamento> buscarPorDireccion(Long idDireccion) throws DAOException {
+		log.info("Method:[buscarPorDireccion]");
+		log.debug("Parmetros:[Long idDireccion:" + idDireccion+"]");
+
+		List<Departamento> elements = new ArrayList<Departamento>();
+
+		try {
+			init();
+			String query="SELECT d FROM Departamento d WHERE d.idDireccion= :idDireccion";
+			
+			elements = manager.createQuery(query,Departamento.class)
+					.setParameter("idDireccion",idDireccion).getResultList();
+			elements.forEach(s->log.debug(s));
+			
+		} catch (Exception e) {
+			log.error("Error", e);
+			throw new DAOException(e);
+		}
+
+		return elements;
+	}
+
+	@Override
+	public Departamento buscarPorEmpleado(Long idEmpleado) throws DAOException {
+		log.info("Method:[findAll]");
+		log.debug("Parmetros:[Long idEmpleado:" + idEmpleado+"]");
+
+		Departamento element = null;
+
+		try {
+			init();
+			
+			element = manager.createNamedQuery("Departamento.findbyEmpleado", Departamento.class)
+					.setParameter("pepe",idEmpleado).getSingleResult();
+			log.debug("[Departamento:" + element+"]");
+			
+		} catch (Exception e) {
+			log.error("Error", e);
+			throw new DAOException(e);
+		}
+
+		return element;
+	}
+	@Override
+	public Long darNumeroEmpleadosDepartamento(Long idDepartamento) throws DAOException {
+		log.info("Method:[darNumeroEmpleadosDepartamento]");
+		log.debug("Parmetros:[Long idDepartamento:" + idDepartamento+"]");
+
+		Long numEmpleados = null;
+
+		try {
+			init();
+			
+			numEmpleados = manager.createNamedQuery("Departamento.countEmpleados", Long.class)
+					.setParameter("id",idDepartamento).getSingleResult();
+			log.debug("[numEmpleados:" + numEmpleados+"]");
+			
+		} catch (Exception e) {
+			log.error("Error", e);
+			throw new DAOException(e);
+		}
+
+		return numEmpleados;
 	}
 
 	/**

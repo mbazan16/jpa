@@ -1,9 +1,15 @@
 package com.jpa.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -13,7 +19,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "DEPARTMENTS")
-@NamedQuery(name="Departamento.findAll", query="SELECT d FROM Departamento d")
+@NamedQueries({
+	@NamedQuery(name="Departamento.findAll", query="SELECT d FROM Departamento d"),
+	@NamedQuery(name="Departamento.findByJefeDepartamento", query="SELECT d FROM Departamento d WHERE d.idManager=:idManager"),
+	@NamedQuery(name="Departamento.findbyEmpleado", query="SELECT e.departamento FROM Empleado e WHERE e.id=:pepe"),
+	@NamedQuery(name="Departamento.countEmpleados", query="SELECT count(e) FROM Empleado e WHERE e.departamento.id=:id")
+})
 public class Departamento {
 	
 	@Id
@@ -25,6 +36,9 @@ public class Departamento {
 	private Long idManager;
 	@Column(name = "LOCATION_ID")
 	private Long idDireccion;
+	
+	@OneToMany(mappedBy = "departamento",fetch=FetchType.LAZY)
+	private List<Empleado> empleados;
 	
 	public Departamento() {
 		super();
@@ -46,6 +60,7 @@ public class Departamento {
 		this.id = id;
 	}
 
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -68,6 +83,18 @@ public class Departamento {
 
 	public void setIdDireccion(Long idDireccion) {
 		this.idDireccion = idDireccion;
+	}
+	
+	
+	
+
+	public List<Empleado> getEmpleados() {
+		if(empleados==null) empleados=new ArrayList<Empleado>();
+		return empleados;
+	}
+
+	public void setEmpleados(List<Empleado> empleados) {
+		this.empleados = empleados;
 	}
 
 	@Override
