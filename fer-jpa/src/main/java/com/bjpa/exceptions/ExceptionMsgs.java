@@ -8,8 +8,7 @@ public enum ExceptionMsgs {
 	LOCN_NONEXISTENT("The location does not exist"),
 	LOCN_EXISTENT("The location already exists"),
 	RG_EXISTENT("The region already exists"),
-	RG_NONEXISTENT("The region does not exists"),
-	;
+	RG_NONEXISTENT("The region does not exists");
 	
 	
 	private String description;
