@@ -6,6 +6,7 @@ public enum ExceptionMsgs {
 	EMPL_NONEXISTENT("The employee does not exist"),
 	EMPL_EXISTENT("The employee already exists"),
 	LOCN_NONEXISTENT("The location does not exist"),
+	RG_EXISTEN("xxxxxx"),
 	LOCN_EXISTENT("The location already exists");
 	
 	private String description;
