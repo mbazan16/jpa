@@ -31,6 +31,8 @@ public class RegionDAO implements DAO<Region,Long> {
 		emf=Persistence.createEntityManagerFactory("HR");
 		em=emf.createEntityManager();
 		
+		
+		
 		Region element=null;
 		try {
 			element=em.find(Region.class, id);
@@ -67,6 +69,7 @@ public class RegionDAO implements DAO<Region,Long> {
 		log.debug("Parameters:[region:"+element+"]");
 		emf=Persistence.createEntityManagerFactory("HR");
 		em=emf.createEntityManager();
+		
 		
 		
 		try {

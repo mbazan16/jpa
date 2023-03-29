@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "EMPLOYEES")
-@NamedQuery(name="findAll", query="SELECT e FROM Empleado e")
+@NamedQuery(name="Empleado.findAll", query="SELECT e FROM Empleado e")
 public class Empleado {
 	@Id
 	@Column(name = "EMPLOYEE_ID")

@@ -33,7 +33,7 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 
 
 	/**
-	 * Método para encontrar un Departamento por su id 
+	 * Mï¿½todo para encontrar un Departamento por su id 
 	 * @param id Identificador del Departamento
 	 * @return  objeto Departamento
 	 * @throws DAOException
@@ -61,7 +61,7 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 	}
 
 	/**
-	 * Método para encontrar tododos los Departamentos de la base de datos
+	 * Mï¿½todo para encontrar tododos los Departamentos de la base de datos
 	 * @return Una Lista de Departamentos
 	 * @throws DAOException
 	 */
@@ -174,7 +174,7 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 	}
 
 	/**
-	 * Método para crear un Departamento de la base de datos
+	 * Mï¿½todo para crear un Departamento de la base de datos
 	 * @param element objeto de tipo Departamento
 	 * @throws DAOException
 	 */
@@ -188,7 +188,7 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 			validarCrear(element);
 
 			try {
-				log.debug("[crear]Iniciamos transacción");
+				log.debug("[crear]Iniciamos transacciï¿½n");
 				manager.getTransaction().begin();
 				manager.persist(element);
 				manager.getTransaction().commit();
@@ -211,7 +211,7 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 
 
 	/**
-	 * Método para modificar un Departamento de la base de datos
+	 * Mï¿½todo para modificar un Departamento de la base de datos
 	 * @param element objeto de tipo Departamento
 	 * @throws DAOException
 	 */
@@ -224,7 +224,7 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 			Departamento departamentoBBDD = validarModificar(element);
 
 			try {
-				log.debug("[modificar]Iniciamos transacción");
+				log.debug("[modificar]Iniciamos transacciï¿½n");
 				manager.getTransaction().begin();
 				departamentoBBDD.setNombre(element.getNombre());				
 				//departamentoBBDD.get(element.getIdDireccion());
@@ -250,7 +250,7 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 
 
 	/**
-	 * Método para eliminar un Departamento de la base de datos
+	 * Mï¿½todo para eliminar un Departamento de la base de datos
 	 * @param id Identificador de Departamento
 	 * @throws DAOException
 	 */
@@ -264,7 +264,7 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 			Departamento element = validarEliminar(id);
 
 			try {
-				log.debug("[eliminar]Iniciamos transacción");
+				log.debug("[eliminar]Iniciamos transacciï¿½n");
 				manager.getTransaction().begin();
 				manager.remove(element);
 				manager.getTransaction().commit();
@@ -288,7 +288,7 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 
 
 	/**
-	 * Método de inicialización de la clase
+	 * Mï¿½todo de inicializaciï¿½n de la clase
 	 * Se inicializa dos objetos : EntityManagerFactory y EntityManager
 	 */
 	private void init() {
@@ -301,10 +301,10 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 	}
 
 	/**
-	 * Validaciones para la acción crear Departamento.
+	 * Validaciones para la acciï¿½n crear Departamento.
 	 * Se comprueba que no existe el departamento
 	 * y que la direccion esta registrada en la BBDD
-	 * Si exite el manager, también se comprueba su existencia
+	 * Si exite el manager, tambiï¿½n se comprueba su existencia
 	 * 
 	 * @param element
 	 * @throws DAOException
@@ -322,11 +322,11 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 
 	}
 	/**
-	 * Validaciones para la acción modificar Departamento.
+	 * Validaciones para la acciï¿½n modificar Departamento.
 	 * Se comprueba que existe el departamento,
 	 * que el departamento a modificar no es igualque el existente
 	 * y que la direccion esta registrada en la BBDD
-	 * Si exite el manager, también se comprueba su existencia
+	 * Si exite el manager, tambiï¿½n se comprueba su existencia
 	 * 
 	 * @param element
 	 * @throws DAOException
@@ -349,7 +349,7 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 
 
 	/**
-	 * Validaciones para la acción modificar Departamento.
+	 * Validaciones para la acciï¿½n modificar Departamento.
 	 * Se comprueba que existe el departamento
 	 * 
 	 * @param id
@@ -368,13 +368,13 @@ public class DepartamentoDAO implements IDepartamentoDAO{
 
 
 	/**
-	 * Se compureba que el identificador de dirección identifica
-	 * una Dirección en BBDD
+	 * Se compureba que el identificador de direcciï¿½n identifica
+	 * una Direcciï¿½n en BBDD
 	 * @param idDireccion
 	 * @throws DAOException
 	 */
 	private void comprobarDireccion(Long idDireccion) throws DAOException{
-		log.info("Method:[private comprobarDirecciónn]");
+		log.info("Method:[private comprobarDirecciï¿½nn]");
 		log.debug("Parmetros:[Long idDireccion:" + idDireccion+"]");
 
 		Direccion localizacion = manager.find(Direccion.class, idDireccion);
